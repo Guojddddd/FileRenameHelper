@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,6 +19,7 @@ public class Service {
 	private List<List<Pair<File, File>>> pairLists;
 	private Map<String, Comparator<File>> sortAlgorthms;
 	private List<String> extensionNames = Arrays.asList("jpg", "jpeg", "png", "gif", "bmp");
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd.HHmmss.SSS");
 
 	public Service() {
 		sortAlgorthms = new HashMap<>();
@@ -59,6 +63,25 @@ public class Service {
 			}
 
 			return indexA - indexB;
+		});
+		sortAlgorthms.put("Create Time First", (a, b) -> {
+			String nameA = a.getName();
+			String nameB = b.getName();
+			try {
+				long cTimeA = Files.readAttributes(a.toPath(), java.nio.file.attribute.BasicFileAttributes.class).creationTime().toMillis();
+				long cTimeB = Files.readAttributes(b.toPath(), java.nio.file.attribute.BasicFileAttributes.class).creationTime().toMillis();
+
+				if (cTimeA < cTimeB) {
+					return -1;
+				} else if (cTimeA > cTimeB) {
+					return 1;
+				} else {
+					return 0;
+				}
+			} catch (IOException e) {
+				log.error("读取创建时间报错", e);
+				return 0;
+			}
 		});
 	}
 
@@ -127,7 +150,14 @@ public class Service {
 			for (Pair<File, File> pair : pairList) {
 //				System.out.println(pair.getValue().getAbsolutePath() + " <- " + pair.getKey().getAbsolutePath());
 				flag = true;
-				sb.append(pair.getValue().getName() + " <- " + pair.getKey().getName() + "\n");
+				String cTime = "";
+				try {
+					long cTimeLong = Files.readAttributes(pair.getKey().toPath(), java.nio.file.attribute.BasicFileAttributes.class).creationTime().toMillis();
+					cTime = dateFormat.format(new Date(cTimeLong));
+				} catch (IOException e) {
+					log.error("读取创建时间报错", e);
+				}
+				sb.append(String.format("%s <- %s %s\n", pair.getValue().getName(), pair.getKey().getName(), cTime));
 			}
 		}
 
