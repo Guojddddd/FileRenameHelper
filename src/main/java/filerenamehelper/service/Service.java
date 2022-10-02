@@ -157,7 +157,7 @@ public class Service {
 				} catch (IOException e) {
 					log.error("读取创建时间报错", e);
 				}
-				sb.append(String.format("%s <- %s %s\n", pair.getValue().getName(), pair.getKey().getName(), cTime));
+				sb.append(String.format("%s <- %s [%s]\n", pair.getValue().getName(), pair.getKey().getName(), cTime));
 			}
 		}
 
