@@ -62,7 +62,42 @@ public class Service {
 				indexB += wordB.length();
 			}
 
-			return indexA - indexB;
+			if (indexA != indexB) {
+				return indexA - indexB;
+			} else {
+				return nameA.length() - nameB.length();
+			}
+		});
+		sortAlgorthms.put("Number First Dict Sequ-NoEx", (a, b) -> {
+			String nameA = removeExname(a.getName());
+			String nameB = removeExname(b.getName());
+			int indexA = 0, indexB = 0;
+
+			while (indexA < nameA.length() && indexB < nameB.length()) {
+				String wordA = getWord(nameA, indexA);
+				String wordB = getWord(nameB, indexB);
+
+				if (isDigit(wordA) && isDigit(wordB)) {
+					int numberCompareResult = digitCompare(wordA, wordB);
+					if (numberCompareResult != 0) {
+						return numberCompareResult;
+					}
+				} else {
+					int strCompareResult = wordA.compareTo(wordB);
+					if (strCompareResult != 0) {
+						return strCompareResult;
+					}
+				}
+
+				indexA += wordA.length();
+				indexB += wordB.length();
+			}
+
+			if (indexA != indexB) {
+				return indexA - indexB;
+			} else {
+				return nameA.length() - nameB.length();
+			}
 		});
 		sortAlgorthms.put("Create Time First", (a, b) -> {
 			String nameA = a.getName();
@@ -223,5 +258,14 @@ public class Service {
 			}
 		}
 		return 0;
+	}
+
+	private String removeExname(String fullFileName) {
+		int dotIndex = fullFileName.lastIndexOf('.');
+		if (dotIndex != -1) {
+			return fullFileName.substring(0, dotIndex);
+		} else {
+			return fullFileName;
+		}
 	}
 }

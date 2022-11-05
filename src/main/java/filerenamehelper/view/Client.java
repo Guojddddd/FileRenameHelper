@@ -105,9 +105,10 @@ public class Client extends JFrame {
 			sortAlgorithmField.addItem("Dict Sequ");
 			sortAlgorithmField.addItem("Length First Dict Sequ");
 			sortAlgorithmField.addItem("Number First Dict Sequ");
+			sortAlgorithmField.addItem("Number First Dict Sequ-NoEx");
 			sortAlgorithmField.addItem("Create Time First");
 			sortAlgorithmField.setSelectedIndex(0);
-			sortAlgorithmField.setSize(180, 30);
+			sortAlgorithmField.setSize(210, 30);
 			sortAlgorithmField.setLocation(320, 120);
 			operatePanel.add(sortAlgorithmField);
 		}
