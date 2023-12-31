@@ -1,6 +1,5 @@
 package filerenamehelper.service;
 
-import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
@@ -16,6 +15,24 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class Service {
+	private static class Pair<N, M> {
+		private N key;
+		private M value;
+
+		public Pair(N key, M value) {
+			this.key = key;
+			this.value = value;
+		}
+
+		public N getKey() {
+			return key;
+		}
+
+		public M getValue() {
+			return value;
+		}
+	}
+
 	private List<List<Pair<File, File>>> pairLists;
 	private Map<String, Comparator<File>> sortAlgorthms;
 	private List<String> extensionNames = Arrays.asList("jpg", "jpeg", "png", "gif", "bmp");
