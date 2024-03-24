@@ -177,10 +177,10 @@ public class Service {
 					String newName = oriName;
 
 					if ("sequ".equals(mode)) {
-						newName = String.format("%s-%s-%s.%02d.%02d.%s", year, month, day, index, noindex, extension);
+						newName = String.format("%s-%s-%s-%02d-%02d.%s", year, month, day, index, noindex, extension);
 						noindex += 1;
 					} else if ("no".equals(mode)) {
-						newName = String.format("%s-%s-%s.%s.%02d.%s", year, month, day, sequ, index, extension);
+						newName = String.format("%s-%s-%s-%s-%02d.%s", year, month, day, sequ, index, extension);
 						index += 1;
 					}
 
